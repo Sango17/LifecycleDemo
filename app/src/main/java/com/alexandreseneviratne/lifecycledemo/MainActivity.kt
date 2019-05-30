@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,10 +19,13 @@ class MainActivity : AppCompatActivity() {
 
         val mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
 
-        text_view.text = String.format(getString(R.string.count), mainActivityViewModel.getInitialCount())
+        val count = mainActivityViewModel.getInitialCount()
+        count.observe(this, Observer<Int> {
+            text_view.text = String.format(getString(R.string.count), it)
+        })
 
         fab.setOnClickListener {
-            text_view.text = String.format(getString(R.string.count), mainActivityViewModel.getCurrentCount())
+            mainActivityViewModel.getCurrentCount()
         }
     }
 

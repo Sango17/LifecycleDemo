@@ -1,16 +1,19 @@
 package com.alexandreseneviratne.lifecycledemo
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class MainActivityViewModel: ViewModel() {
     private var clickedCount = 0
+    private val countLiveData = MutableLiveData<Int>()
 
-    fun getInitialCount(): Int {
-        return clickedCount
+    fun getInitialCount(): MutableLiveData<Int> {
+        countLiveData.value = clickedCount
+        return countLiveData
     }
 
-    fun getCurrentCount(): Int {
+    fun getCurrentCount() {
         clickedCount += 1
-        return clickedCount
+        countLiveData.value = clickedCount
     }
 }
