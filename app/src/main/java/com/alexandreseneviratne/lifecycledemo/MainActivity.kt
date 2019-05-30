@@ -1,12 +1,13 @@
 package com.alexandreseneviratne.lifecycledemo
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.ViewModelProviders
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,11 +16,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        val mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
+
+        text_view.text = String.format(getString(R.string.count), mainActivityViewModel.getInitialCount())
+
+        fab.setOnClickListener {
+            text_view.text = String.format(getString(R.string.count), mainActivityViewModel.getCurrentCount())
         }
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
